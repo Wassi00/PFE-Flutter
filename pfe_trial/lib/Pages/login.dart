@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pfe_trial/Components/button.dart';
 import 'package:pfe_trial/Components/text_field.dart';
-import 'package:pfe_trial/Models/userModel.dart';
-import 'package:pfe_trial/Pages/userPage.dart';
 import 'package:pfe_trial/services/api.dart';
 
 class Login extends StatelessWidget {

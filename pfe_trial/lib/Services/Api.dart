@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pfe_trial/Pages/userPage.dart';
+import 'package:pfe_trial/Pages/user_page.dart';
 import 'package:pfe_trial/providers/userProvider.dart';
 import 'package:pfe_trial/utils/constants.dart';
 import 'package:pfe_trial/utils/utils.dart';

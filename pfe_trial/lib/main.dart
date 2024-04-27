@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pfe_trial/Pages/login.dart';
+import 'package:pfe_trial/Pages/qr_scanner.dart';
 import 'package:pfe_trial/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    print("Error loading .env file: $e");
+  }
+
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
     child: const MyApp(),

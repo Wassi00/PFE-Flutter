@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pfe_trial/Models/userModel.dart';
 import 'package:pfe_trial/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 

@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Constants {
-  static String uri = 'http://192.168.1.4:55954';
+  static String uri = dotenv.env['ENDPOINT']!;
 }

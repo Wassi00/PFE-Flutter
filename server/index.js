@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
 const authRouter = require('./routes/authRoute')
+require('dotenv').config();
 
 app.use(express.urlencoded({
     extended: true
@@ -12,7 +13,7 @@ app.use(authRouter);
 
 const PORT = 55954 || process.env.PORT
 
-const DB = "mongodb+srv://wass:pfe123@pfe.fjfbmmf.mongodb.net/?retryWrites=true&w=majority";
+const DB = process.env.DB;
 
 mongoose.connect(DB).then(() => {
     console.log("connection successfully done");
