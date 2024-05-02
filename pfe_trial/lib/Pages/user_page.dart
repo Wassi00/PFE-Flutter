@@ -12,6 +12,10 @@ class UserPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("User Data"),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.pushNamed(context, '/home'),
+          icon: const Icon(Icons.home_filled),
+        ),
       ),
       body: SafeArea(
           child: Center(

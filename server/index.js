@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
-const authRouter = require('./routes/authRoute')
+const authRouter = require('./routes/authRoute');
+const absRouter = require ('./routes/absRoute');
+
 require('dotenv').config();
 
 app.use(express.urlencoded({
@@ -10,6 +12,7 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 app.use(authRouter);
+app.use(absRouter);
 
 const PORT = 55954 || process.env.PORT
 

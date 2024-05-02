@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pfe_trial/Pages/login.dart';
 import 'package:pfe_trial/Pages/qr_scanner.dart';
+import 'package:pfe_trial/Pages/user_page.dart';
 import 'package:pfe_trial/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Login(),
+      routes: {
+        '/home': (context) => QRScannerPage(),
+        '/user': (context) => const UserPage(),
+      },
     );
   }
 }

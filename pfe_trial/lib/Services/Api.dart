@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pfe_trial/Pages/user_page.dart';
 import 'package:pfe_trial/providers/userProvider.dart';
+import 'package:pfe_trial/screens/error_screen.dart';
+import 'package:pfe_trial/screens/success_screen.dart';
 import 'package:pfe_trial/utils/constants.dart';
 import 'package:pfe_trial/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +45,41 @@ class Api {
           });
     } catch (e) {
       showSnackBar(context, e.toString());
+    }
+  }
+
+  void checkIn(
+      {required BuildContext context,
+      required String username,
+      required String password}) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      final navigator = Navigator.of(context);
+
+      http.Response res = await http.post(
+        Uri.parse('${Constants.uri}/abs'),
+        body: jsonEncode({
+          'username': username,
+          'password': password,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+            navigator.pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const SuccessScreen()),
+                (route) => false);
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const ErrorScreen()),
+          (route) => false);
     }
   }
 }
