@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pfe_trial/Pages/home.dart';
 import 'package:pfe_trial/Pages/login.dart';
 import 'package:pfe_trial/Pages/qr_scanner.dart';
 import 'package:pfe_trial/Pages/user_page.dart';
@@ -30,8 +31,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Login(),
       routes: {
-        '/home': (context) => QRScannerPage(),
+        '/home': (context) => const Home(),
         '/user': (context) => const UserPage(),
+        '/qr': (context) => QRScannerPage(),
       },
     );
   }
