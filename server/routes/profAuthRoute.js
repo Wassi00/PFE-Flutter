@@ -10,7 +10,7 @@ profAuthRouter.post("/loginProf", async (req, res) => {
 
   try {
     const professor = await Professeur.findOne({
-      where: { adresseEmailAcademique: email, Cin: cin },
+      where: { adresse_email_academique: email, Cin: cin },
     });
 
     if (!professor) {

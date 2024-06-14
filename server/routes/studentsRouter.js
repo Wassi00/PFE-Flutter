@@ -32,8 +32,10 @@ router.get("/Cin/:Cin", async (req, res) => {
   try {
     const student = await Etudiant.findByPk(Cin);
     if (!student) {
+      console.log("error");
       return res.status(404).json({ error: "Student not found" });
     }
+
     res.json(student);
   } catch (error) {
     console.error("Error fetching student:", error);

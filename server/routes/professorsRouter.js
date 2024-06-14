@@ -1,9 +1,9 @@
 const express = require("express");
 const Professor = require("../models/professeur");
 const { verifyToken } = require("../middleware/auth");
-const ClassProfessor = require("../models/classProfessor");
-const Class = require("../models/class");
-const Module = require("../models/module");
+const StudentAttendance = require("../models/studentAttendance");
+const AttendanceSession = require("../models/attendanceSession");
+const Student = require("../models/etudiant");
 
 const router = express.Router();
 
@@ -134,32 +134,47 @@ router.delete("/:Cin", async (req, res) => {
   }
 });
 
-// Get assigned classes
-router.get("/assigned-classes", verifyToken, async (req, res) => {
-  const professorCin = req.user.cin; // Assuming the CIN is in the JWT token payload
+// Get absences related to the professor
+router.get("/absences/:Cin", async (req, res) => {
+  const { Cin } = req.params;
   try {
-    const classes = await ClassProfessor.findAll({
-      where: { professorCin },
-      include: [{ model: Class }],
+    const sessions = await AttendanceSession.findAll({
+      where: { professorCin: Cin },
     });
-    res.json(classes.map((cp) => cp.Class));
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch assigned classes" });
-  }
-});
+    const AbStudents = [];
+    const studentIds = [];
 
-// Get assigned modules
-router.get("/assigned-modules/:classCode", verifyToken, async (req, res) => {
-  const { classCode } = req.params;
-  const professorCin = req.user.cin;
-  try {
-    const modules = await ClassProfessor.findAll({
-      where: { classCode, professorCin },
-      include: [{ model: Module }],
-    });
-    res.json(modules.map((cp) => cp.Module));
+    for (let index = 0; index < sessions.length; index++) {
+      const students = await StudentAttendance.findAll({
+        where: {
+          verified: false,
+          sessionId: sessions[index].dataValues.sessionId,
+        },
+        attributes: ["studentId", "sessionId", "createdAt"],
+        raw: true,
+      });
+
+      students.forEach((student) => {
+        studentIds.push(student.studentId);
+      });
+
+      const moduleCode = await AttendanceSession.findOne({
+        where: { sessionId: sessions[index].dataValues.sessionId },
+        attributes: ["moduleCode"],
+        raw: true,
+      });
+      if (students.length !== 0) AbStudents.push({ students, moduleCode });
+    }
+    const etudiants = [];
+    for (let index = 0; index < studentIds.length; index++) {
+      const etudiant = await Student.findByPk(studentIds[index]);
+      etudiants.push(etudiant);
+    }
+
+    res.status(200).json({ absences: AbStudents, students: etudiants });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch assigned modules" });
+    console.log(error);
+    res.status(500).json("error: " + error);
   }
 });
 

@@ -1,22 +1,26 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const Admin = require('../models/Admin');
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const Admin = require("../models/Admin");
 
 const adminAuthRouter = express.Router();
 
-adminAuthRouter.post('/login', async (req, res) => {
+adminAuthRouter.post("/login", async (req, res) => {
   const { emailAcademique, cin } = req.body;
   try {
     const admin = await Admin.findOne({ where: { emailAcademique, Cin: cin } });
     if (!admin) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     // Generate JWT token
-    const token = jwt.sign({ cin: admin.Cin, emailAcademique: admin.emailAcademique }, 'your_jwt_secret', { expiresIn: '1h' });
-    res.status(200).json({ token });
+    const token = jwt.sign(
+      { cin: admin.Cin, emailAcademique: admin.emailAcademique },
+      "attendance_app",
+      { expiresIn: "1h" }
+    );
+    res.status(200).json(token);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to login' });
+    res.status(500).json({ error: "Failed to login" });
   }
 });
 

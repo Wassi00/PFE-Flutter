@@ -28,4 +28,5 @@ const Professeur = sequelize.define(
 Department.hasMany(Professeur, { foreignKey: "departement" });
 Professeur.belongsTo(Department, { foreignKey: "departement" });
 
+
 module.exports = Professeur;

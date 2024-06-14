@@ -1,34 +1,42 @@
-const express = require('express')
-const authRouter = express.Router();
-const User = require("../models/user");
-const bcryptjs = require('bcryptjs');
+const express = require("express");
+const router = express.Router();
 const jwt = require("jsonwebtoken");
+const Etudiant = require("../models/etudiant");
+const Formation = require("../models/formation");
 
-authRouter.post("/login", async (req,res) => {
-    try {
-        const {username, password} = req.body;
+const JWT_SECRET = "attendance_app"; // Replace with your actual secret key
 
-        const user = await User.findOne({username});
-        if(!user){
-            return res.status(400).json({msg: "user not found"})
-        }
+// Student Login Route
+router.post("/login", async (req, res) => {
+  const { cin, adresseEmailAcademique } = req.body;
+  console.log(cin, adresseEmailAcademique);
+  try {
+    // Find student by CIN and academic email
+    const student = await Etudiant.findOne({
+      where: { Cin: cin, adresseEmailAcademique },
+    });
 
-        // const isMatch = await bcryptjs.compare(password, user.password);
-        const isMatch = (password == user.password);
-
-        if(!isMatch){
-            return res.status(400).json({msg: "password incorrect!"})
-        }
-
-        const token = jwt.sign({id: user._id}, "passwordKey");
-
-        return res.json({token, ...user._doc})
-    
-    } catch (error) {
-        res.status(500).json({error: e.message})
+    if (!student) {
+      return res.status(401).json({ error: "Invalid credentials" });
     }
-})
 
+    const formation = await Formation.findByPk(student.formationCode);
 
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        id: student.Cin,
+        email: student.adresseEmailAcademique,
+      },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
-module.exports = authRouter;
+    res.json({ token });
+  } catch (error) {
+    console.error("Error logging in student:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+module.exports = router;
