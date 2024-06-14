@@ -4,6 +4,12 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
 
 class QRScannerPage extends StatefulWidget {
+  final String sessionId;
+  final String cin;
+
+  const QRScannerPage({Key? key, required this.sessionId, required this.cin})
+      : super(key: key);
+
   @override
   _QRScannerPageState createState() => _QRScannerPageState();
 }
@@ -18,13 +24,13 @@ class _QRScannerPageState extends State<QRScannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('QR Scanner'),
-          actions: [
-            IconButton(
-                onPressed: () => Navigator.pushNamed(context, '/user'),
-                icon: const Icon(Icons.person_3_rounded))
-          ],
-          automaticallyImplyLeading: false),
+        title: const Text('QR Scanner'),
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.pushNamed(context, '/user'),
+              icon: const Icon(Icons.person_3_rounded))
+        ],
+      ),
       body: Column(
         children: <Widget>[
           if (isCameraOpen)
@@ -47,7 +53,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 isCameraOpen = !isCameraOpen;
               });
             },
-            child: Text(isCameraOpen ? 'Close Scanner' : 'Open Scanner'),
+            child: Text(isCameraOpen ? 'Fermer Scanner' : 'Ouvrir Scanner'),
           ),
         ],
       ),
@@ -70,7 +76,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
       // Replace 'your-server-url' with your actual server URL
       final verif = Api();
 
-      verif.checkIn(context: context, username: "wass", password: "wass");
+      verif.checkIn(
+          context: context, sessionId: widget.sessionId, cin: widget.cin);
     } catch (error) {
       // Handle network or other errors
       print('Error sending scanned data: $error');

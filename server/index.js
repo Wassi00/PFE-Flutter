@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const authRouter = require("./routes/authRoute");
 const qrGenRouter = require("./routes/qrGenRoute");
 const profAuthRouter = require("./routes/profAuthRoute");
@@ -48,16 +48,16 @@ app.use("/protected-route", verifyToken, (req, res) => {
 
 const PORT = 55954 || process.env.PORT;
 
-const DB = process.env.DB;
+// const DB = process.env.DB;
 
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log("connection successfully done");
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+// mongoose
+//   .connect(DB)
+//   .then(() => {
+//     console.log("connection successfully done");
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server Up and running at ${PORT}!`);

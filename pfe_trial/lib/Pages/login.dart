@@ -1,3 +1,5 @@
+// login.dart
+
 import 'package:flutter/material.dart';
 import 'package:pfe_trial/Components/button.dart';
 import 'package:pfe_trial/Components/text_field.dart';
@@ -19,17 +21,6 @@ class Login extends StatelessWidget {
         password: passwordController.text);
   }
 
-  // void getUser(BuildContext context) async {
-  //   User? user = await Api.getLogin();
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => UserPage(
-  //           user: user,
-  //         ),
-  //       ));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,25 +28,15 @@ class Login extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 50),
 
               // logo
               Image.asset(
-                'assets/img/logo.jpeg',
-                width: 100,
-              ),
-
-              const SizedBox(height: 50),
-
-              // welcome back, you've been missed!
-              Text(
-                'Welcome back you\'ve been missed!',
-                style: TextStyle(
-                  color: Colors.grey[700],
-                  fontSize: 16,
-                ),
+                'assets/img/logo.png',
+                width: 200,
+                height: 200,
               ),
 
               const SizedBox(height: 25),
@@ -63,7 +44,7 @@ class Login extends StatelessWidget {
               // username textfield
               MyTextField(
                 controller: usernameController,
-                hintText: 'Username',
+                hintText: 'Email Academique',
                 obscureText: false,
               ),
 
@@ -72,22 +53,19 @@ class Login extends StatelessWidget {
               // password textfield
               MyTextField(
                 controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
+                hintText: 'Cin',
+                obscureText: false,
               ),
 
               const SizedBox(height: 10),
 
               // sign in button
-              MyButton(onTap: () => signUserIn(context), text: "Sign In"),
-
-              const SizedBox(height: 50),
-
-              // MyButton(onTap: () => getUser(context), text: "Get user"),
+              MyButton(onTap: () => signUserIn(context), text: "Login"),
             ],
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

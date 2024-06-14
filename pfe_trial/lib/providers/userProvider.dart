@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pfe_trial/Models/userModel.dart';
 
 class UserProvider extends ChangeNotifier {
-  User _user = User(id: '', username: '', password: '', token: '');
+  String? _token;
 
-  User get user => _user;
+  String? get token => _token;
 
-  void setUser(String user) {
-    _user = User.fromJson(user);
+  // Method to set the token
+  void setToken(String token) {
+    _token = token;
     notifyListeners();
   }
 
-  void setUserFromModel(User user) {
-    _user = user;
+  // Method to clear the token (e.g., on logout)
+  void clearToken() {
+    _token = null;
     notifyListeners();
   }
 }
